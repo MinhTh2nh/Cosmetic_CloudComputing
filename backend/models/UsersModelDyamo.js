@@ -26,15 +26,89 @@ const getAllUsers = async () => {
     };
 };
 
-const getUserId = async (id) => {
+const deleteByEmail = async (email) => {
+    const scanParams = {
+        TableName: TABLE_NAME,
+        FilterExpression: 'email = :email',
+        ExpressionAttributeValues: {
+            ':email': email,
+        },
+    };
+
+    const scanResult = await dynamoClient.scan(scanParams).promise();
+
+    if (scanResult.Items.length === 0) {
+        throw new Error('User not found with the specified email.');
+    }
+
+    // Find the user with the matching email and get its id
+    const userToDelete = scanResult.Items.find(item => item.email === email);
+
+    if (!userToDelete) {
+        throw new Error('User not found with the specified email.');
+    }
+
+    const userId = userToDelete.id;
+
+    const deleteParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            id: userId,
+        },
+    };
+
+    return await dynamoClient.delete(deleteParams).promise();
+};
+
+
+const getUserByEmail = async (email) => {
+    const params = {
+        TableName: TABLE_NAME,
+        FilterExpression: 'email = :email',
+        ExpressionAttributeValues: {
+            ':email': email,
+        },
+    };
+
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items[0]; 
+    // Assuming there's at most one user with the same email or phoneNumber
+};
+
+const updateUserByEmail = async (email, updatedUserInfo) => {
+    // Check if the user with the specified email exists
+    const existingUser = await getUserByEmail(email);
+
+    if (!existingUser.Item) {
+        throw new Error('User not found.');
+    }
+
+    // Check if the updated email or phoneNumber already exists for another user
+    const duplicateUser = await getUserByEmailOrPhoneNumber(updatedUserInfo.email, updatedUserInfo.phoneNumber);
+
+    if (duplicateUser && duplicateUser.email !== email) {
+        throw new Error('User with the same email or phoneNumber already exists.');
+    }
     const params = {
         TableName: TABLE_NAME,
         Key: {
-            id,
+            email,
         },
+        UpdateExpression: 'SET email = :email, password = :password, phoneNumber = :phoneNumber, username = :username',
+        ExpressionAttributeValues: {
+            ':email': updatedUserInfo.email,
+            ':password': updatedUserInfo.password,
+            ':phoneNumber': updatedUserInfo.phoneNumber,
+            ':username': updatedUserInfo.username,
+        },
+        ReturnValues: 'ALL_NEW', // Return the updated item
     };
-    return await dynamoClient.get(params).promise();
+
+    const result = await dynamoClient.update(params).promise();
+
+    return result.Attributes; // Return the updated user information
 };
+
 
 const getUserByEmailOrPhoneNumber = async (email, phoneNumber) => {
     const params = {
@@ -63,57 +137,18 @@ const addUser = async (User) => {
         TableName: TABLE_NAME,
         Item: User,
     };
-    return await dynamoClient.put(params).promise();
-};
-const deleteById = async (id) => {
-    const params = {
-        TableName: TABLE_NAME,
-        Key: {
-            id,
-        },
-    };
-    return await dynamoClient.delete(params).promise();
+    return dynamoClient.put(params).promise();
 };
 
-const updateUserByID = async (id, updatedUserInfo) => {
-    // Check if the user with the specified ID exists
-    const existingUser = await getUserId(id);
 
-    if (!existingUser.Item) {
-        throw new Error('User not found.');
-    }
-
-    // Check if the updated email or phoneNumber already exists for another user
-    const duplicateUser = await getUserByEmailOrPhoneNumber(updatedUserInfo.email, updatedUserInfo.phoneNumber);
-
-    if (duplicateUser && duplicateUser.id !== id) {
-        throw new Error('User with the same email or phoneNumber already exists.');
-    }
-    const params = {
-        TableName: TABLE_NAME,
-        Key: {
-            id,
-        },
-        UpdateExpression: 'SET email = :email, password = :password, phoneNumber = :phoneNumber, username = :username',
-        ExpressionAttributeValues: {
-            ':email': updatedUserInfo.email,
-            ':password': updatedUserInfo.password,
-            ':phoneNumber': updatedUserInfo.phoneNumber,
-            ':username': updatedUserInfo.username,
-        },
-        ReturnValues: 'ALL_NEW', // Return the updated item
-    };
-
-    const result = await dynamoClient.update(params).promise();
-
-    return result.Attributes; // Return the updated user information
-};
-
-module.exports = {
+const UserModel  = {
     dynamoClient,
+    getUserByEmail,
+    getUserByEmailOrPhoneNumber ,
     getAllUsers,
-    getUserId,
     addUser,
-    deleteById,
-    updateUserByID
+    deleteByEmail,
+    updateUserByEmail
 };
+
+module.exports = UserModel;
