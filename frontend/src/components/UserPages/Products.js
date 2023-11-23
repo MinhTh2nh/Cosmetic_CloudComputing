@@ -72,7 +72,116 @@ const Products = (props) => {
         fontFamily: "Karla,sans-serif",
       }}
     >
-      <Loader isProductLoading={props.isProductLoading} />
+      <div className="row">
+        <div className="col-md-4 mt-4">
+          <div className="card">
+            <div className="product-showdetail">
+              <div className="card-img-top">
+                <img
+                  src="https://syle.s3.ap-southeast-1.amazonaws.com/Ecommerce/src/assets/4k+1080P%2C+2K%2C+4K%2C+5K+HD+wallpapers+free+download.jpg"
+                  className="card-img-top"
+                  alt="..."
+                />
+                <h3 className="text-success-s2 font-weight-bold">SEE DETAIL</h3>
+              </div>
+              <div className="card-body">
+                <p className="font-weight-bold my-0">Sua Rua Mat</p>
+                <small className="card-text text-secondary">Stock : 100</small>
+                <br />
+                <div className="d-flex d-row mt-4">
+                  <p className="my-0 text-success-s2 font-weight-bold">$10.0</p>
+                  <button className="btn btn-outline-success d-flex d-row ml-auto">
+                    <i className="fas fa-cart-plus align-self-center mr-2 fa-sm" />
+                    <small className="font-weight-bold">Cart</small>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/*  */}
+        <div className="col-md-4 mt-4">
+          <div className="card">
+            <div className="product-showdetail">
+              <div className="card-img-top">
+                <img
+                  src="https://syle.s3.ap-southeast-1.amazonaws.com/Ecommerce/src/assets/4k+1080P%2C+2K%2C+4K%2C+5K+HD+wallpapers+free+download.jpg"
+                  className="card-img-top"
+                  alt="..."
+                />
+                <h3 className="text-success-s2 font-weight-bold">SEE DETAIL</h3>
+              </div>
+              <div className="card-body">
+                <p className="font-weight-bold my-0">Sua Rua Mat</p>
+                <small className="card-text text-secondary">Stock : 100</small>
+                <br />
+                <div className="d-flex d-row mt-4">
+                  <p className="my-0 text-success-s2 font-weight-bold">$10.0</p>
+                  <button className="btn btn-outline-success d-flex d-row ml-auto">
+                    <i className="fas fa-cart-plus align-self-center mr-2 fa-sm" />
+                    <small className="font-weight-bold">Cart</small>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/*  */}
+        <div className="col-md-4 mt-4">
+          <div className="card">
+            <div className="product-showdetail">
+              <div className="card-img-top">
+                <img
+                  src="https://syle.s3.ap-southeast-1.amazonaws.com/Ecommerce/src/assets/4k+1080P%2C+2K%2C+4K%2C+5K+HD+wallpapers+free+download.jpg"
+                  className="card-img-top"
+                  alt="..."
+                />
+                <h3 className="text-success-s2 font-weight-bold">SEE DETAIL</h3>
+              </div>
+              <div className="card-body">
+                <p className="font-weight-bold my-0">Sua Rua Mat</p>
+                <small className="card-text text-secondary">Stock : 100</small>
+                <br />
+                <div className="d-flex d-row mt-4">
+                  <p className="my-0 text-success-s2 font-weight-bold">$10.0</p>
+                  <button className="btn btn-outline-success d-flex d-row ml-auto">
+                    <i className="fas fa-cart-plus align-self-center mr-2 fa-sm" />
+                    <small className="font-weight-bold">Cart</small>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/*  */}
+        <div className="col-md-4 mt-4">
+          <div className="card">
+            <div className="product-showdetail">
+              <div className="card-img-top">
+                <img
+                  src="https://syle.s3.ap-southeast-1.amazonaws.com/Ecommerce/src/assets/4k+1080P%2C+2K%2C+4K%2C+5K+HD+wallpapers+free+download.jpg"
+                  className="card-img-top"
+                  alt="..."
+                />
+                <h3 className="text-success-s2 font-weight-bold">SEE DETAIL</h3>
+              </div>
+              <div className="card-body">
+                <p className="font-weight-bold my-0">Sua Rua Mat</p>
+                <small className="card-text text-secondary">Stock : 100</small>
+                <br />
+                <div className="d-flex d-row mt-4">
+                  <p className="my-0 text-success-s2 font-weight-bold">$10.0</p>
+                  <button className="btn btn-outline-success d-flex d-row ml-auto">
+                    <i className="fas fa-cart-plus align-self-center mr-2 fa-sm" />
+                    <small className="font-weight-bold">Cart</small>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <Loader isProductLoading={props.isProductLoading} />
       <div className="row">
         {arrayDataProduct.length !== 0 ? (
           arrayDataProduct.map((item, index) => {
@@ -149,7 +258,7 @@ const Products = (props) => {
         </div>
       ) : (
         <> </>
-      )}
+      )} */}
       <ProductDetailModal
         showDetailModal={showDetailModal}
         unDisplayDetailModal={unDisplayDetailModal}

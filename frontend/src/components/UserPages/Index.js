@@ -183,11 +183,10 @@ const Index = (props) => {
             className="display-4 font-weight-bold text-center"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            Shop Elegant & Fantastic Fashions!
+            Radiant Reverie Beauty
           </h1>
           <p className="text-center text-secondary">
-            Ready to wear dresses tailored for you from online. Hurry up while
-            stock lasts.
+            Illuminate Your Beauty with Radiant Reverie.
           </p>
           <div className="input-group mt-5">
             <input
@@ -202,7 +201,7 @@ const Index = (props) => {
             />
             <div className="input-group-append">
               <button
-                className="btn btn-success px-4"
+                className="btn btn-success px-4 btn-50"
                 type="button"
                 id="button-addon2"
                 onClick={handleSearchSubmit}
@@ -221,8 +220,8 @@ const Index = (props) => {
       </div>
       {/* carousel-brochure */}
 
-          {/* part 3 - content */}
-          <div className="container">
+      {/* part 3 - content */}
+      <div className="container">
         <div className="row mb-5">
           {/* Sidebar */}
           <div className="col-md-3 mt-3">
