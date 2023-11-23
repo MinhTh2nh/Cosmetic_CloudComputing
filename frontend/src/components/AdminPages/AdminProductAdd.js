@@ -103,21 +103,22 @@ const AdminProductAdd = (props) => {
               </div>
             </div>
             <div className="form-group">
-              <label>Choose Image</label>
+              <label>Link Image</label>
               <div className="custom-file">
                 <input
                   name="image"
-                  type="file"
+                  type="text"
                   accept="image/*"
                   className="custom-file-input"
                   id="customFile"
                   onChange={selectFile}
+                  style = {{width : "100%" }}
                 />
                 <label className="custom-file-label" htmlFor="customFile">
                   {selectedFileName ? (
                     <p className="text-success-s2 my-0">{selectedFileName}</p>
                   ) : (
-                    "Choose file"
+                    ""
                   )}
                 </label>
               </div>
