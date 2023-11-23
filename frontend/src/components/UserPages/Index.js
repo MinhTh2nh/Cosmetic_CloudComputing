@@ -293,7 +293,6 @@ const Index = (props) => {
 const mapStateToProps = (state) => {
   return {
     tokenUser: state.LoginReducer.tokenUser,
-    dataCart: state.UserReducer.dataCart,
   };
 };
 
