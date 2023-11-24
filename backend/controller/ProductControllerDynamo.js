@@ -1,4 +1,4 @@
-const ProductModel = require('../models/ProductModelDyamo');
+const ProductModel = require('../models/ProductModelDynamo');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 

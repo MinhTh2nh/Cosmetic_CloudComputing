@@ -70,7 +70,7 @@ const updateProductById = async (id, updatedProductInfo) => {
             id,
         },
 
-        UpdateExpression: 'SET image = :image, name = :name, price = :price, description = :description, quantity = :quantity, password = :password',
+        UpdateExpression: 'SET image = :image, name = :name, price = :price, description = :description, quantity = :quantity, productType = :productType',
 
         ExpressionAttributeValues: {
             ':image': updatedProductInfo.image,
@@ -78,7 +78,7 @@ const updateProductById = async (id, updatedProductInfo) => {
             ':price': updatedProductInfo.price,
             ':description': updatedProductInfo.description,
             ':quantity': updatedProductInfo.quantity,
-            ':password': updatedProductInfo.password,
+            ':productType': updatedProductInfo.productType,
         },
 
         ReturnValues: 'ALL_NEW',

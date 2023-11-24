@@ -3,7 +3,7 @@ var router = express.Router();
 const productController = require("../controller/ProductsController");
 const { validateAdmin, validateUser } = require("../validator/UsersValidator");
 const productsController = require("../controller/ProductsController");
-const productsControllerDynamoDB = require("../controller/ProductControllerDynamoDB");
+const productsControllerDynamoDB = require("../controller/ProductControllerDynamo");
 const multer = require("multer");
 
 // const storage = multer.diskStorage({
