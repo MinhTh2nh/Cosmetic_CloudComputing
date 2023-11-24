@@ -14,10 +14,41 @@ const dynamoDB = new AWS.DynamoDB();
 const TABLE_NAME = 'orders';
 
 
+const getOrders = async () => {
 
-const OrdersModel  = {
-    dynamoClient,
-    
+        const params = {
+            TableName: TABLE_NAME,
+        };
+
+        const orderList = await dynamoClient.scan(params).promise();
+
+        return {
+            items: orderList.Items,
+            count: orderList.Count,
+        }
 };
 
-module.exports = OrdersModel;
+const getOrdersID = async (order_Id) => {
+    
+        const params = {
+            TableName: TABLE_NAME,
+            // FilterExpression: 'order_Id = :order_Id',
+            // ExpressionAttributeValues: {
+            //     ':order_Id': order_Id,
+            // },
+            Key: {
+                'order_Id': order_Id,
+            },
+        };
+      
+        const result = await dynamoClient.scan(params).promise();
+        return result.Item;
+}
+
+const OrderModel  = {
+    dynamoClient,
+    getOrdersID,
+    getOrders
+};
+
+module.exports = OrderModel;

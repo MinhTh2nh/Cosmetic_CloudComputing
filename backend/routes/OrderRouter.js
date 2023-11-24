@@ -12,7 +12,8 @@ const { validateAdmin, validateUser } = require("../validator/UsersValidator");
 
 //For the DyamoDB database -- Start Here
 //Test Ok
-router.post("/create", orderControllerDyamoDB.createOrder);
+router.get("/getOrders", orderControllerDyamoDB.getAllOrders);
+router.get("/getOrders/:orderId", orderControllerDyamoDB.getOrdersbyID);
 //Un-Test
 //For the DyamoDB database -- End Here
 
