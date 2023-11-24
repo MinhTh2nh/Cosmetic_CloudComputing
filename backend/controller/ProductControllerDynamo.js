@@ -6,7 +6,7 @@ const getAllProductsController = async (req, res) => {
     try {
         const { items, count } = await ProductModel.getAllProducts();
         res.json({
-            users: items,
+            products: items,
             count,
         });
     } catch (err) {
@@ -17,10 +17,11 @@ const getAllProductsController = async (req, res) => {
 
 const createProductController = async (req,res) => {
     try {
-        const {productid, name, price, description, quantity, productType, image } = req.body;
+        const { productid, name, price, description, quantity, productType, image } = req.body;
 
         // Create a new product object
         const newProduct = {
+            id: productid,
             name,
             price,
             description,

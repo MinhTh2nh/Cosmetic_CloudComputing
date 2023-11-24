@@ -45,10 +45,12 @@ const createProduct = async (Product) => {
 
     const params = {
         TableName: TABLE_NAME, 
-        Item: {},
+        Item: {
+            productid: Product.id,
+        },
     };
 
-    params.Item.id = Product.id;
+    // params.Item.id = Product.id;
 
     if (Product.image) {
         params.Item.image = Product.image;
@@ -61,7 +63,7 @@ const updateProductById = async (id, updatedProductInfo) => {
     const existingUser = await getUserId(id);
 
     if (!existingUser.Item) {
-        throw new Error('User not found.');
+        throw new Error('Product not found.');
     }
 
     const params = {
