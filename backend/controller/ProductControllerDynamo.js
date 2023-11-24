@@ -16,48 +16,32 @@ const getAllProductsController = async (req, res) => {
 };
 
 const createProductController = async (req,res) => {
-        let objWithoutImage = {
-            name: req.body.name,
-            price: req.body.price,
-            description: req.body.description,
-            quantity: req.body.quantity,
-            productType: req.body.productType,
+    try {
+        const {productid, name, price, description, quantity, productType, image } = req.body;
+
+        // Create a new product object
+        const newProduct = {
+            name,
+            price,
+            description,
+            quantity,
+            productType
         };
 
-        let obj = {
-            image: req.file && req.file.path,
-            name: req.body.name,
-            price: req.body.price,
-            description: req.body.description,
-            quantity: req.body.quantity,
-            productType: req.body.productType,
-        };
+        if (image) {
+            newProduct.image = image;
+          }
 
-        if (obj.image == null) {
-            ProductModel
-                .create(objWithoutImage)
-                .then((result) => {
-                    res.json({
-                        status: "success",
-                        message: "Successfully create product!",
-                        data: result,
-                    });
-                })
-                .catch((error) => res.status(400).json(error));
-        } 
-            
-            else {
-                ProductModel
-                    .create(obj)
-                    .then((result) => {
-                        res.json({
-                            status: "success",
-                            message: "Successfully create product!",
-                            data: result,
-                        });
-                    })
-                    .catch((error) => res.status(400).json(error));
-                }
+        // Call the ProductModel to create the product in DynamoDB
+        await ProductModel.createProduct(newProduct);
+
+        res.json({
+            message: 'Product created successfully',
+        });
+    } catch (error) {
+        console.error('Error creating product:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 }
 
 module.exports = {

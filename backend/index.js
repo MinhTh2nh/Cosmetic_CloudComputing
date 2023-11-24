@@ -44,7 +44,7 @@ app.use("/public/productImages", express.static("public"));
 //For the DyamoDB database -- Start Here
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-// app.use("/product", productRouter);
+app.use("/products", productRouter);
 // app.use("/order", orderRouter);
 const port = 8081;
 app.listen(port, () => {

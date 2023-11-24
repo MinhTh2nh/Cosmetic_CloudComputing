@@ -54,7 +54,7 @@ const createProduct = async (Product) => {
         params.Item.image = Product.image;
     }
 
-    return await dynamoDB.put(params).promise();
+    return await dynamoClient.put(params).promise();
 };
 
 const updateProductById = async (id, updatedProductInfo) => {
