@@ -48,6 +48,9 @@ const multer = require("multer");
 //Test Ok
 router.get("/get", productsControllerDynamoDB.getAllProductsController);
 router.post("/create", productsControllerDynamoDB.createProductController);
+router.get("/get/:productid", productsControllerDynamoDB.getProductByIdController);
+router.put("/update/:productid", productsControllerDynamoDB.updateProducController);
+router.delete("/delete/:productid", productsControllerDynamoDB.deleteProductController);
 //Un-Test
 //For the DyamoDB database -- End Here
 

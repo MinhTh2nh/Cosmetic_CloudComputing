@@ -26,11 +26,11 @@ const getAllProducts = async () => {
     };
 };
 
-const getProductId = async (id) => {
+const getProductId = async (productid) => {
     const params = {
         TableName: TABLE_NAME,
         Key: {
-            id,
+            productid,
         },
     };
 
@@ -59,44 +59,56 @@ const createProduct = async (Product) => {
     return await dynamoClient.put(params).promise();
 };
 
-const updateProductById = async (id, updatedProductInfo) => {
-    const existingUser = await getUserId(id);
+const updateProductById = async (productid, updatedProductInfo) => {
+    const existingProduct = await getProductId(productid);
 
-    if (!existingUser.Item) {
+    if (!existingProduct.Item) {
         throw new Error('Product not found.');
     }
 
     const params = {
         TableName: TABLE_NAME,
         Key: {
-            id,
+            productid,
         },
 
-        UpdateExpression: 'SET image = :image, name = :name, price = :price, description = :description, quantity = :quantity, productType = :productType',
+        UpdateExpression: 'SET #name = :name, #price = :price, #description = :description, #quantity = :quantity, #productType = :productType',
+
+        ExpressionAttributeNames: {
+            '#name': 'name',
+            '#price': 'price',
+            '#description': 'description',
+            '#quantity': 'quantity',
+            '#productType': 'productType',
+        },
 
         ExpressionAttributeValues: {
-            ':image': updatedProductInfo.image,
-            ':name': updatedProductInfo.name,
-            ':price': updatedProductInfo.price,
-            ':description': updatedProductInfo.description,
-            ':quantity': updatedProductInfo.quantity,
-            ':productType': updatedProductInfo.productType,
+            ':name': updatedProductInfo.name || '',
+            ':price': updatedProductInfo.price || '',
+            ':description': updatedProductInfo.description || '',
+            ':quantity': updatedProductInfo.quantity || '',
+            ':productType': updatedProductInfo.productType || '', // Đảm bảo giá trị tồn tại
         },
-
+        
         ReturnValues: 'ALL_NEW',
+    };
+
+    try {
+        const result = await dynamoClient.update(params).promise();
+
+        return result.Attributes;
+    } catch (error) {
+        console.error('Error updating product:', error);
+        throw new Error('Internal Server Error');
     }
-
-    const result = await dynamoClient.update(params).promise();
-
-    return result.Attributes;
-
 }
 
-const deleteProductById = async (id) => {
+
+const deleteProductById = async (productid) => {
     const params = {
         TableName: TABLE_NAME,
         Key: {
-            id,
+            productid,
         },
     };
 
