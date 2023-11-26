@@ -34,7 +34,7 @@ const Index = (props) => {
       return null;
     }
   };
-  
+
   // Usage
   if (localStorage.getItem("token-user")) {
     var userData = parseJwt(localStorage.getItem("token-user"));
@@ -83,7 +83,6 @@ const Index = (props) => {
     setNavLoginSuccess(false);
   };
 
-
   const picture = (image) => {
     return {
       backgroundImage: `url(${image})`,
@@ -122,9 +121,9 @@ const Index = (props) => {
                 {props.tokenUser ? (
                   <Link to="/cart" style={{ textDecoration: "none" }}>
                     <li className="nav-item">
-                      <button className="btn btn-40 btn-success d-flex d-row">
+                      <button className="btn btn-success d-flex d-row">
                         <i className="fas fa-shopping-cart align-self-center mr-2" />
-                        {/* <p className="my-0">Cart : {props.dataCart.length}</p> */}
+                        <p className="my-0">Cart</p>
                       </button>
                     </li>
                   </Link>
@@ -135,7 +134,7 @@ const Index = (props) => {
                       className="btn btn-secondary d-flex d-row"
                     >
                       <i className="fas fa-shopping-cart align-self-center mr-2" />
-                      {/* <p className="my-0">Cart : {props.dataCart.length}</p> */}
+                      <p className="my-0">Cart </p>
                     </button>
                   </li>
                 )}

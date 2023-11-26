@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1500.0",
+    "aws-sdk": "^2.1502.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
@@ -23,10 +23,12 @@
     "mongoose": "^8.0.1",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.5",
-    "nodemon": "^3.0.1",
     "path": "^0.12.7",
     "sequelize": "^6.35.1",
     "start": "^5.1.0",
     "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
