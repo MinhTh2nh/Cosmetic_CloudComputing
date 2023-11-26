@@ -42,7 +42,6 @@ const AdminProductAdd = (props) => {
   FormAddData.append("price", dataAddInput.price);
   FormAddData.append("description", dataAddInput.description);
   FormAddData.append("quantity", dataAddInput.quantity);
-  FormAddData.append("productGender", dataAddInput.productGender);
   FormAddData.append("productType", dataAddInput.productType);
 
   const handleSubmitAdd = (event) => {
@@ -135,18 +134,6 @@ const AdminProductAdd = (props) => {
               />
             </div>
             <div className="d-flex d-row">
-              <div className="form-group w-100">
-                <label htmlFor="product-gender">Select Product Gender</label>
-                <select
-                  className="form-control"
-                  name="productGender"
-                  onChange={handleAddInputChange}
-                >
-                  <option value="man">Man</option>
-                  <option value="women">Women</option>
-                  <option value="both">Both</option>
-                </select>
-              </div>
               <div className="form-group ml-3 w-100">
                 <label htmlFor="product-type">Select Product Type</label>
                 <select

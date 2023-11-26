@@ -48,7 +48,6 @@ const AdminProductEdit = (props) => {
   FormEditData.append("price", dataEditInput.price);
   FormEditData.append("description", dataEditInput.description);
   FormEditData.append("quantity", dataEditInput.quantity);
-  FormEditData.append("productGender", dataEditInput.productGender);
   FormEditData.append("productType", dataEditInput.productType);
 
   const handleSubmitEdit = (event) => {
@@ -131,18 +130,6 @@ const AdminProductEdit = (props) => {
               />
             </div>
             <div className="d-flex d-row">
-              <div className="form-group w-100">
-                <label htmlFor="product-gender">Select Product Gender</label>
-                <select
-                  className="form-control"
-                  name="productGender"
-                  onChange={handleEditInputChange}
-                >
-                  <option value="man">Man</option>
-                  <option value="women">Women</option>
-                  <option value="both">Both</option>
-                </select>
-              </div>
               <div className="form-group ml-3 w-100">
                 <label htmlFor="product-type">Select Product Type</label>
                 <select

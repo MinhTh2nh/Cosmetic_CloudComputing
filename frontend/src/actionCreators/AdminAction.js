@@ -49,7 +49,7 @@ export const addDataProduct = (FormAddData, data) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        `${url}/product/addproduct`,
+        `${url}/products/create`,
         FormAddData,
         {
           headers: {
@@ -80,7 +80,7 @@ export const addDataProduct = (FormAddData, data) => {
 export const getDataProduct = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${url}/product/getproduct`);
+      const response = await axios.get(`${url}/products/get`);
       const output = response.data;
 
       dispatch({
@@ -98,7 +98,7 @@ export const editDataProduct = (FormEditData, data) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(
-        `${url}/product/editproduct/${data._id}`,
+        `${url}/products/update/${data._id}`,
         FormEditData,
         {
           headers: {
@@ -123,7 +123,7 @@ export const editDataProduct = (FormEditData, data) => {
 export const deleteDataProduct = (dataId) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`${url}/product/deleteproduct/${dataId}`, {
+      await axios.delete(`${url}/products/delete/${dataId}`, {
         headers: { "x-access-token": tokenAdmin },
       });
 

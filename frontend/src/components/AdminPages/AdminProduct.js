@@ -146,15 +146,6 @@ const AdminProduct = (props) => {
                     </small>
                     <div className="d-flex d-row mb-3 justify-content-center">
                       <button
-                        className="btn"
-                        style={{
-                          borderRadius: "7px",
-                          backgroundColor: "#dedede",
-                        }}
-                      >
-                        {item.productGender}
-                      </button>
-                      <button
                         className="btn ml-3"
                         style={{
                           borderRadius: "7px",
