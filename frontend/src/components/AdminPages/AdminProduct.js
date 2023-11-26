@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
-  getDataProduct,
   deleteDataProduct,
 } from "../../actionCreators/AdminAction";
 import { useDispatch } from "react-redux";
@@ -13,21 +12,6 @@ import AddProductModal from "./AdminProductAdd";
 const AdminProduct = (props) => {
   const urlLocalhost = `${process.env.REACT_APP_API_URL}`;
   const dispatch = useDispatch();
-
-  const picture = (image) => {
-    return {
-      backgroundImage: `url(${urlLocalhost}/${image})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      marginTop: "1rem",
-      height: "14rem",
-    };
-  };
-
-  useEffect(() => {
-    dispatch(getDataProduct());
-  }, [dispatch]);
-
   // ADD MODAL FORM.
   const [showAddModal, setShowAddModal] = useState(false);
   const displayAddModal = () => {
@@ -120,6 +104,27 @@ const AdminProduct = (props) => {
     return <></>;
   };
 
+  const [dataProduct, setDataProduct] = useState([]);
+  const picture = (image) => {
+    // Implement the logic for displaying the product image
+    return {
+      backgroundImage: `url(${image})`,
+      backgroundSize: 'cover',
+      height: '200px', // Adjust the height as needed
+    };
+  };
+  useEffect(() => {
+    // Fetch product data from your DynamoDB API endpoint
+    fetch(`${urlLocalhost}/product/get`)  // Adjust the endpoint as needed
+      .then((response) => response.json())
+      .then((data) => {
+        setDataProduct(data.products);
+      })
+      .catch((error) => {
+        console.error('Error fetching product data:', error);
+      });
+  }, []);
+
   return (
     <div className="text-center">
       <AlertDismissible />
@@ -129,78 +134,71 @@ const AdminProduct = (props) => {
       </button>
 
       <div className="mx-4 my-3">
-        <div className="row">
-          {props.dataProduct.map((item, index) => {
-            return (
-              <div className="col-md-3 mt-4" key={index}>
-                <div className="card">
-                  <div
-                    style={picture(item.image)}
-                    className="card-img-top"
-                    alt="..."
-                  />
-                  <div className="card-body">
-                    <p className="font-weight-bold my-0">{item.name}</p>
-                    <small className="card-text text-secondary">
-                      Stock : {item.quantity}
-                    </small>
-                    <div className="d-flex d-row mb-3 justify-content-center">
-                      <button
-                        className="btn"
-                        style={{
-                          borderRadius: "7px",
-                          backgroundColor: "#dedede",
-                        }}
-                      >
-                        {item.productGender}
-                      </button>
-                      <button
-                        className="btn ml-3"
-                        style={{
-                          borderRadius: "7px",
-                          backgroundColor: "#dedede",
-                        }}
-                      >
-                        {item.productType}
-                      </button>
-                    </div>
+      <div className="row">
+        {dataProduct.map((item, index) => (
+          <div className="col-md-3 mt-4" key={index}>
+            <div className="card">
+              <div
+                style={picture(item.image.S)}
+                className="card-img-top"
+                alt="..."
+              />
+              <div className="card-body">
+                <p className="font-weight-bold my-0">{item.name.S}</p>
+                <small className="card-text text-secondary">
+                  Stock : {item.quantity.N}
+                </small>
+                <div className="d-flex d-row mb-3 justify-content-center">
+                  <button
+                    className="btn ml-3"
+                    style={{
+                      borderRadius: "7px",
+                      backgroundColor: "#dedede",
+                    }}
+                  >
+                    {item.productType.S}
+                  </button>
+                </div>
 
-                    <p>{item.description}</p>
-                    <div className="d-flex d-row mt-4">
-                      <p className="my-0 text-success-s2 font-weight-bold">
-                        ${item.price}
-                      </p>
-                      <div className="d-flex d-row ml-auto">
-                        <button
-                          className="btn btn-warning mr-2"
-                          onClick={() => displayEditModal(item)}
-                        >
-                          <i className="far fa-edit fa-lg"></i>
-                        </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => displayDeleteModal(item)}
-                        >
-                          <i className="far fa-trash-alt fa-lg"></i>
-                        </button>
-                      </div>
-                    </div>
+                <p>{item.description.S}</p>
+                <div className="d-flex d-row mt-4">
+                  <p className="my-0 text-success-s2 font-weight-bold">
+                    ${item.price.N}
+                  </p>
+                  <div className="d-flex d-row ml-auto">
+                    <button
+                      className="btn btn-warning mr-2"
+                      onClick={() => displayEditModal(item)}
+                    >
+                      <i className="far fa-edit fa-lg"></i>
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => displayDeleteModal(item)}
+                    >
+                      <i className="far fa-trash-alt fa-lg"></i>
+                    </button>
                   </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          </div>
+        ))}
       </div>
+      <DeleteProductModal />
+    </div>
+
       <AddProductModal
         showAddModal={showAddModal}
         unDisplayAddModal={unDisplayAddModal}
       />
+
       <EditProductModal
         showEditModal={showEditModal}
         dataEdit={dataEdit}
         unDisplayEditModal={unDisplayEditModal}
       />
+      
       <DeleteProductModal />
     </div>
   );

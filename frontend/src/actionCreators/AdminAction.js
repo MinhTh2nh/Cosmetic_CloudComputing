@@ -4,7 +4,6 @@ const url = `${process.env.REACT_APP_API_URL}`;
 const tokenAdmin = localStorage.getItem("token-admin");
 
 // FOR ADMIN USER PART
-
 export const getDataUser = () => {
   return async (dispatch) => {
     try {
@@ -48,7 +47,7 @@ export const addDataProduct = (FormAddData, data) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        `${url}/product/addproduct`,
+        `${url}/product/create`,
         FormAddData,
         {
           headers: {
@@ -79,7 +78,7 @@ export const addDataProduct = (FormAddData, data) => {
 export const getDataProduct = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${url}/product/getproduct`);
+      const response = await axios.get(`${url}/product/get`);
       const output = response.data;
 
       dispatch({

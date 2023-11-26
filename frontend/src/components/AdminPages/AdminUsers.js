@@ -8,11 +8,21 @@ import { getDataUser, deleteUser } from "../../actionCreators/AdminAction";
 import { useDispatch } from "react-redux";
 
 const AdminUsers = (props) => {
-  const dispatch = useDispatch();
+  const [dataUser, setDataUser] = useState([]);
 
   useEffect(() => {
-    dispatch(getDataUser());
-  }, [dispatch]);
+    // Fetch user data from your DynamoDB API endpoint
+    fetch('http://localhost:8081/users/get')  // Adjust the endpoint as needed
+      .then((response) => response.json())
+      .then((data) => {
+        setDataUser(data.users);
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
+      });
+  }, []); // The empty dependency array ensures the effect runs only once on mount
+
+  const dispatch = useDispatch();
 
   // DELETE MODAL FORM.
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -71,26 +81,24 @@ const AdminUsers = (props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {props.dataUser.map((item, index) => {
-            return (
-              <Tr key={index}>
-                <Td className="text-justify text-center">{index + 1}</Td>
-                <Td className="text-justify text-center">{item.username}</Td>
-                <Td className="text-justify text-center">{item.email}</Td>
-                <Td className="text-justify text-center">
-                  0{item.phoneNumber}
-                </Td>
-                <Td>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => displayDeleteModal(item)}
-                  >
-                    <i className="far fa-trash-alt fa-lg"></i>
-                  </button>
-                </Td>
-              </Tr>
-            );
-          })}
+          {dataUser.map((item, index) => (
+            <Tr key={index}>
+              <Td className="text-justify text-center">{index + 1}</Td>
+              <Td className="text-justify text-center">{item.username}</Td>
+              <Td className="text-justify text-center">{item.email}</Td>
+              <Td className="text-justify text-center">
+                0{item.phoneNumber}
+              </Td>
+              <Td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => displayDeleteModal(item)}
+                >
+                  <i className="far fa-trash-alt fa-lg"></i>
+                </button>
+              </Td>
+            </Tr>
+          ))}
         </Tbody>
       </Table>
       <DeleteProductModal />
