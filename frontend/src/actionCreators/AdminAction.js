@@ -27,6 +27,7 @@ export const getDataUser = () => {
 export const deleteUser = (dataId) => {
   return async (dispatch) => {
     try {
+      console.log("Deleting user with ID:", dataId);
       await axios.delete(`${url}/users/delete/${dataId}`, {
         headers: { "x-access-token": tokenAdmin },
       });

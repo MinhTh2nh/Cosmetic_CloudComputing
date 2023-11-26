@@ -26,8 +26,8 @@ const AdminUsers = (props) => {
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
   };
-  const handleDelete = () => {
-    dispatch(deleteUser(dataDelete._id));
+  const handleDelete = async() => {
+    await dispatch(deleteUser(dataDelete._id));
     setShowDeleteModal(false);
   };
   const DeleteProductModal = () => {
@@ -36,8 +36,8 @@ const AdminUsers = (props) => {
         <Modal.Header closeButton>
           <Modal.Title>
             <p>
-              Are you sure want to delete this user with the name of
-              <span className="text-success-s2">"{dataDelete.username}"</span> ?
+              Are you sure want to delete this user with the name of 
+              <span className="text-success-s2"> "{dataDelete.username}"</span> ?
             </p>
           </Modal.Title>
         </Modal.Header>
