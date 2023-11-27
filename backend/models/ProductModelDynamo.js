@@ -116,6 +116,7 @@ const deleteProductById = async (productid) => {
     return await dynamoClient.delete(params).promise();
 };
 
+
 module.exports = {
     dynamoClient,
     getAllProducts,

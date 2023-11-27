@@ -182,7 +182,7 @@ const updateUserController  = async (req, res) => {
 };
 const deleteUserController = async (req, res) => {
     try {
-        const email = req.params.email; // Use email instead of id
+        const email = req.params.email;
         // Call the deleteById function from the UserModel
         await UserModel.deleteByEmail(email);
         // Send a success response
