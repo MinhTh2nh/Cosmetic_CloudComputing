@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Modal, Button } from "react-bootstrap";
-
 import { addDataProduct } from "../../actionCreators/AdminAction";
 
 const AdminProductAdd = (props) => {
-  const [selectedFileName, setSelectedFileName] = useState("");
+  const [imageLink, setImageLink] = useState("");
 
   const [dataAddInput, setDataAddInput] = useState({
-    image: null,
+    image: "",
     name: "",
-    price: "",
+    price: 0,
     description: "",
-    quantity: "",
-    productGender: "man",
-    productType: "tops",
+    quantity: 0,
+    productType: "Eyes",
   });
 
   const handleAddInputChange = (event) => {
@@ -23,12 +21,14 @@ const AdminProductAdd = (props) => {
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  const selectFile = (event) => {
+
+  const handleSetImageLink = (event) => {
+    // Assuming you are now storing the image URL as a string
     setDataAddInput({
       ...dataAddInput,
-      [event.currentTarget.name]: event.target.files[0],
+      image: event.currentTarget.value,
     });
-    setSelectedFileName(event.target.files[0].name);
+    setImageLink(event.currentTarget.value);
   };
 
   const closeAddModal = () => {
@@ -37,29 +37,39 @@ const AdminProductAdd = (props) => {
 
   //  Form Edit Data = for image inputs, we use form data in Insomnia. So here we are.
   const FormAddData = new FormData();
-  FormAddData.append("image", dataAddInput.image);
   FormAddData.append("name", dataAddInput.name);
   FormAddData.append("price", dataAddInput.price);
   FormAddData.append("description", dataAddInput.description);
   FormAddData.append("quantity", dataAddInput.quantity);
-  FormAddData.append("productGender", dataAddInput.productGender);
   FormAddData.append("productType", dataAddInput.productType);
+  FormAddData.append("image", dataAddInput.image);
+   // Assuming you want to send the image
+  
 
-  const handleSubmitAdd = (event) => {
+  const handleSubmitAdd = async (event) => {
+    console.log(dataAddInput)
     event.preventDefault();
-    props.addDataProduct(FormAddData, dataAddInput);
-    setDataAddInput({
-      image: null,
-      name: "",
-      price: "",
-      description: "",
-      quantity: "",
-      productGender: "man",
-      productType: "tops",
-    });
-    props.unDisplayAddModal(false);
+    try {
+      // Use dataAddInput directly
+      await props.addDataProduct(dataAddInput);
+      // Reset the form inputs
+      setDataAddInput({
+        image: "",
+        name: "",
+        price: 0,
+        description: "",
+        quantity: 0,
+        productType: "Eyes",
+      });
+      // Close the modal
+      props.unDisplayAddModal(false);
+    } catch (error) {
+      console.error("Error adding product:", error);
+      // Handle error as needed (show an alert, etc.)
+    }
   };
-
+  
+  
   return (
     <Modal show={props.showAddModal} onHide={closeAddModal}>
       <form onSubmit={handleSubmitAdd}>
@@ -88,7 +98,7 @@ const AdminProductAdd = (props) => {
                   placeholder="Price"
                   name="price"
                   onChange={handleAddInputChange}
-                />
+                  value={dataAddInput.price} />
               </div>
               {/* Stock(Frontend) = Quantity(Backend) */}
               <div className="form-group ml-3">
@@ -99,31 +109,24 @@ const AdminProductAdd = (props) => {
                   placeholder="Stock"
                   name="quantity"
                   onChange={handleAddInputChange}
+                  value={dataAddInput.quantity}
+
                 />
               </div>
             </div>
             <div className="form-group">
               <label>Link Image</label>
-              <div className="custom-file">
-                <input
-                  name="image"
-                  type="text"
-                  accept="image/*"
-                  className="custom-file-input"
-                  id="customFile"
-                  onChange={selectFile}
-                  style = {{width : "100%" }}
-                />
-                <label className="custom-file-label" htmlFor="customFile">
-                  {selectedFileName ? (
-                    <p className="text-success-s2 my-0">{selectedFileName}</p>
-                  ) : (
-                    ""
-                  )}
-                </label>
-              </div>
+              <input
+                name="image"
+                type="text"
+                className="form-control"
+                placeholder="Image URL"
+                onChange={handleSetImageLink}
+                value={dataAddInput.image}
+              />
             </div>
-            <div className="form-group">
+
+           <div className="form-group">
               <label htmlFor="description">Description</label>
               <textarea
                 rows="3"
@@ -132,31 +135,25 @@ const AdminProductAdd = (props) => {
                 placeholder="Description"
                 name="description"
                 onChange={handleAddInputChange}
+                value={dataAddInput.description}
               />
             </div>
+
             <div className="d-flex d-row">
-              <div className="form-group w-100">
-                <label htmlFor="product-gender">Select Product Gender</label>
-                <select
-                  className="form-control"
-                  name="productGender"
-                  onChange={handleAddInputChange}
-                >
-                  <option value="man">Man</option>
-                  <option value="women">Women</option>
-                  <option value="both">Both</option>
-                </select>
-              </div>
               <div className="form-group ml-3 w-100">
                 <label htmlFor="product-type">Select Product Type</label>
                 <select
                   className="form-control"
                   name="productType"
                   onChange={handleAddInputChange}
+                  value={dataAddInput.productType}
                 >
-                  <option value="tops">Tops</option>
-                  <option value="bottom">Bottom</option>
-                  <option value="outer wear">Outer Wear</option>
+                  <option value="Face">Face</option>
+                  <option value="Eyes">Eyes</option>
+                  <option value="Lips">Lips</option>
+                  <option value="Accessories">Accessories</option>
+                  <option value="Shaving Needs">Shaving Needs</option>
+
                 </select>
               </div>
             </div>

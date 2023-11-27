@@ -57,7 +57,9 @@ const deleteByEmail = async (email) => {
         },
     };
 
-    return await dynamoClient.delete(deleteParams).promise();
+    await dynamoClient.delete(deleteParams).promise();
+    return { message: 'User deleted successfully' };
+
 };
 
 

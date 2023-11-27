@@ -9,10 +9,11 @@ import { useDispatch } from "react-redux";
 
 const AdminUsers = (props) => {
   const [dataUser, setDataUser] = useState([]);
+  const url = `${process.env.REACT_APP_API_URL}`;
 
   useEffect(() => {
     // Fetch user data from your DynamoDB API endpoint
-    fetch('http://localhost:8081/users/get')  // Adjust the endpoint as needed
+    fetch(`${url}/users/get`)  // Adjust the endpoint as needed
       .then((response) => response.json())
       .then((data) => {
         setDataUser(data.users);
@@ -37,7 +38,7 @@ const AdminUsers = (props) => {
     setShowDeleteModal(false);
   };
   const handleDelete = () => {
-    dispatch(deleteUser(dataDelete._id));
+    dispatch(deleteUser(dataDelete.email));
     setShowDeleteModal(false);
   };
   const DeleteProductModal = () => {

@@ -21,12 +21,7 @@ const AdminProduct = (props) => {
     setShowAddModal(boolean);
   };
 
-  // EDIT MODAL FORM. (WHEN YOU MAKE MODAL FOR EDIT,ETC, YOU NEED TO DIVIDE THAT AS OTHER FILE.)
-
-  // WHY? Because if you make it like delete form, CONST & CALL IT ON THE BOTTOM, THE ONCHANGE WILL NOT WORK.
-  // The onchange will read the const and then when return, it will go back on the first state. We need to make it only 1 time run.
   const [showEditModal, setShowEditModal] = useState(false);
-  // dataEdit = productDatas that want to be edited.
   const [dataEdit, setDataEdit] = useState({});
 
   const displayEditModal = (data) => {
@@ -46,14 +41,22 @@ const AdminProduct = (props) => {
   const [dataDelete, setDataDelete] = useState({});
 
   const displayDeleteModal = (data) => {
-    setDataDelete(data);
+    const deleteData = {
+      ...data,
+      name: data.name.S, // Assuming 'name' is a property containing a string
+    };
+  
+    setDataDelete(deleteData);
     setShowDeleteModal(true);
   };
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
   };
   const handleDelete = () => {
-    dispatch(deleteDataProduct(dataDelete._id));
+    console.log("Deleting product with productid:", dataDelete.productid.S);
+    dispatch(deleteDataProduct(dataDelete.productid.S));
+    setShowDeleteModal(false);
+  
     setShowDeleteModal(false);
   };
   const DeleteProductModal = () => {
@@ -106,16 +109,14 @@ const AdminProduct = (props) => {
 
   const [dataProduct, setDataProduct] = useState([]);
   const picture = (image) => {
-    // Implement the logic for displaying the product image
     return {
       backgroundImage: `url(${image})`,
       backgroundSize: 'cover',
-      height: '200px', // Adjust the height as needed
+      height: '300px', // Adjust the height as needed
     };
   };
   useEffect(() => {
-    // Fetch product data from your DynamoDB API endpoint
-    fetch(`${urlLocalhost}/product/get`)  // Adjust the endpoint as needed
+    fetch(`${urlLocalhost}/product/get`)  
       .then((response) => response.json())
       .then((data) => {
         setDataProduct(data.products);
@@ -135,58 +136,69 @@ const AdminProduct = (props) => {
 
       <div className="mx-4 my-3">
       <div className="row">
-        {dataProduct.map((item, index) => (
-          <div className="col-md-3 mt-4" key={index}>
-            <div className="card">
-              <div
-                style={picture(item.image.S)}
-                className="card-img-top"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="font-weight-bold my-0">{item.name.S}</p>
-                <small className="card-text text-secondary">
-                  Stock : {item.quantity.N}
-                </small>
-                <div className="d-flex d-row mb-3 justify-content-center">
-                  <button
-                    className="btn ml-3"
-                    style={{
-                      borderRadius: "7px",
-                      backgroundColor: "#dedede",
-                    }}
-                  >
-                    {item.productType.S}
-                  </button>
-                </div>
-
-                <p>{item.description.S}</p>
-                <div className="d-flex d-row mt-4">
-                  <p className="my-0 text-success-s2 font-weight-bold">
-                    ${item.price.N}
-                  </p>
-                  <div className="d-flex d-row ml-auto">
-                    <button
-                      className="btn btn-warning mr-2"
-                      onClick={() => displayEditModal(item)}
-                    >
-                      <i className="far fa-edit fa-lg"></i>
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => displayDeleteModal(item)}
-                    >
-                      <i className="far fa-trash-alt fa-lg"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {dataProduct.map((item, index) => (
+  <div className="col-md-3 mt-4" key={index}>
+    <div className="card">
+      {item.image && item.image.S && (
+        <div
+          style={picture(item.image.S)}
+          className="card-img-top"
+          alt="..."
+        />
+      )}
+      <div className="card-body">
+        {item.name && item.name.S && (
+          <p className="font-weight-bold my-0">{item.name.S}</p>
+        )}
+        {item.quantity && item.quantity.N && (
+          <small className="card-text text-secondary">
+            Stock: {item.quantity.N}
+          </small>
+        )}
+        <div className="d-flex d-row mb-3 justify-content-center">
+          {item.productType && item.productType.S && (
+            <button
+              className="btn ml-3"
+              style={{
+                borderRadius: "7px",
+                backgroundColor: "#dedede",
+              }}
+            >
+              {item.productType.S}
+            </button>
+          )}
+        </div>
+        {item.description && item.description.S && (
+          <p>{item.description.S}</p>
+        )}
+        <div className="d-flex d-row mt-4">
+          {(item.price && item.price.N) && (
+            <p className="my-0 text-success-s2 font-weight-bold">
+              ${item.price.N} 
+            </p>
+          )}
+          <div className="d-flex d-row ml-auto">
+            <button
+              className="btn btn-warning mr-2"
+              onClick={() => displayEditModal(item)}
+            >
+              <i className="far fa-edit fa-lg"></i>
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => displayDeleteModal(item)}
+            >
+              <i className="far fa-trash-alt fa-lg"></i>
+            </button>
           </div>
-        ))}
+        </div>
+      </div>
+    </div>
+  </div>
+))}
       </div>
       <DeleteProductModal />
-    </div>
+      </div>
 
       <AddProductModal
         showAddModal={showAddModal}
@@ -203,6 +215,7 @@ const AdminProduct = (props) => {
     </div>
   );
 };
+
 const mapStateToProps = (state) => {
   return {
     alertData: state.AdminProductReducer.alert,
