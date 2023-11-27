@@ -4,7 +4,6 @@ const url = `${process.env.REACT_APP_API_URL}`;
 const tokenAdmin = localStorage.getItem("token-admin");
 
 // FOR ADMIN USER PART
-
 export const getDataUser = () => {
   return async (dispatch) => {
     try {
@@ -27,7 +26,6 @@ export const getDataUser = () => {
 export const deleteUser = (dataId) => {
   return async (dispatch) => {
     try {
-      console.log("Deleting user with ID:", dataId);
       await axios.delete(`${url}/users/delete/${dataId}`, {
         headers: { "x-access-token": tokenAdmin },
       });
@@ -48,16 +46,12 @@ export const deleteUser = (dataId) => {
 export const addDataProduct = (FormAddData, data) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        `${url}/products/create`,
-        FormAddData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "x-access-token": tokenAdmin,
-          },
-        }
-      );
+      const response = await axios.post(`${url}/product/create`, FormAddData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "x-access-token": tokenAdmin,
+        },
+      });
       const output = response.data;
       dispatch({
         type: "ADD_DATA_PRODUCT",
@@ -80,7 +74,7 @@ export const addDataProduct = (FormAddData, data) => {
 export const getDataProduct = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${url}/products/get`);
+      const response = await axios.get(`${url}/product/get`);
       const output = response.data;
 
       dispatch({
@@ -98,7 +92,7 @@ export const editDataProduct = (FormEditData, data) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(
-        `${url}/products/update/${data._id}`,
+        `${url}/product/editproduct/${data._id}`,
         FormEditData,
         {
           headers: {
@@ -123,7 +117,7 @@ export const editDataProduct = (FormEditData, data) => {
 export const deleteDataProduct = (dataId) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`${url}/products/delete/${dataId}`, {
+      await axios.delete(`${url}/product/deleteproduct/${dataId}`, {
         headers: { "x-access-token": tokenAdmin },
       });
 

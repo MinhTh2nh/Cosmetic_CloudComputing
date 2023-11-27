@@ -35,7 +35,7 @@ connection.query('SELECT 1 + 1', (error, results, fields) => {
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/products", productRouter);
+app.use("/product", productRouter);
 // app.use("/order", orderRouter);
 
 app.use(express.urlencoded({

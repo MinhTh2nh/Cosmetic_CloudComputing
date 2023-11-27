@@ -49,8 +49,8 @@ const multer = require("multer");
 router.get("/get", productsControllerMySQL.getAllProducts);
 router.post("/create", productsControllerMySQL.createProduct);
 router.get("/get/:productID", productsControllerMySQL.getProuductId);
-router.put("/update/:productID", productsControllerMySQL.editProductById);
-router.delete("/delete/:productID", productsControllerMySQL.deleteByID);
+router.put("/editproduct/:productID", productsControllerMySQL.editProductById);
+router.delete("/deleteproduct/:productID", productsControllerMySQL.deleteByID);
 
 //For the DyamoDB database -- Start Here
 //Test Ok
