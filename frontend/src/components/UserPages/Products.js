@@ -41,10 +41,8 @@ const Products = (props) => {
     dispatch(getDataProduct());
   }, [dispatch]);
 
-  // limit configuration
   var start = 0;
   var arrayDataProduct = Array.from(props.dataProduct).slice(start, limit);
-  var lengthOfDataProduct = props.dataProduct.length;
 
   // search function
   if (props.submitSearch) {
@@ -66,30 +64,50 @@ const Products = (props) => {
     setLimit(limit + 3);
   };
 
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${urlLocalhost}/product/get`);
+        const data = await response.json();
+        setProducts(data.products);
+      } catch (error) {
+        console.error('Error fetching product data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div
       style={{
         fontFamily: "Karla,sans-serif",
       }}
     >
-      <div className="row">
-        <div className="col-md-4 mt-4">
+       <div className="row">
+      {products.map((product) => (
+        <div key={product.productid.S} className="col-md-4 mt-4">
           <div className="card">
             <div className="product-showdetail">
               <div className="card-img-top">
                 <img
-                  src="https://syle.s3.ap-southeast-1.amazonaws.com/Ecommerce/src/assets/4k+1080P%2C+2K%2C+4K%2C+5K+HD+wallpapers+free+download.jpg"
+                  src={product.image.S}
                   className="card-img-top"
-                  alt="..."
+                  alt={product.name.S}
                 />
                 <h3 className="text-success-s2 font-weight-bold">SEE DETAIL</h3>
               </div>
               <div className="card-body">
-                <p className="font-weight-bold my-0">Sua Rua Mat</p>
-                <small className="card-text text-secondary">Stock : 100</small>
+                <p className="font-weight-bold my-0">{product.name.S}</p>
+                <small className="card-text text-secondary">
+                  Stock: {product.quantity.N}
+                </small>
                 <br />
                 <div className="d-flex d-row mt-4">
-                  <p className="my-0 text-success-s2 font-weight-bold">$10.0</p>
+                  <p className="my-0 text-success-s2 font-weight-bold">
+                    ${product.price.N}
+                  </p>
                   <button className="btn btn-outline-success d-flex d-row ml-auto">
                     <i className="fas fa-cart-plus align-self-center mr-2 fa-sm" />
                     <small className="font-weight-bold">Cart</small>
@@ -99,166 +117,8 @@ const Products = (props) => {
             </div>
           </div>
         </div>
-        {/*  */}
-        <div className="col-md-4 mt-4">
-          <div className="card">
-            <div className="product-showdetail">
-              <div className="card-img-top">
-                <img
-                  src="https://syle.s3.ap-southeast-1.amazonaws.com/Ecommerce/src/assets/4k+1080P%2C+2K%2C+4K%2C+5K+HD+wallpapers+free+download.jpg"
-                  className="card-img-top"
-                  alt="..."
-                />
-                <h3 className="text-success-s2 font-weight-bold">SEE DETAIL</h3>
-              </div>
-              <div className="card-body">
-                <p className="font-weight-bold my-0">Sua Rua Mat</p>
-                <small className="card-text text-secondary">Stock : 100</small>
-                <br />
-                <div className="d-flex d-row mt-4">
-                  <p className="my-0 text-success-s2 font-weight-bold">$10.0</p>
-                  <button className="btn btn-outline-success d-flex d-row ml-auto">
-                    <i className="fas fa-cart-plus align-self-center mr-2 fa-sm" />
-                    <small className="font-weight-bold">Cart</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/*  */}
-        <div className="col-md-4 mt-4">
-          <div className="card">
-            <div className="product-showdetail">
-              <div className="card-img-top">
-                <img
-                  src="https://syle.s3.ap-southeast-1.amazonaws.com/Ecommerce/src/assets/4k+1080P%2C+2K%2C+4K%2C+5K+HD+wallpapers+free+download.jpg"
-                  className="card-img-top"
-                  alt="..."
-                />
-                <h3 className="text-success-s2 font-weight-bold">SEE DETAIL</h3>
-              </div>
-              <div className="card-body">
-                <p className="font-weight-bold my-0">Sua Rua Mat</p>
-                <small className="card-text text-secondary">Stock : 100</small>
-                <br />
-                <div className="d-flex d-row mt-4">
-                  <p className="my-0 text-success-s2 font-weight-bold">$10.0</p>
-                  <button className="btn btn-outline-success d-flex d-row ml-auto">
-                    <i className="fas fa-cart-plus align-self-center mr-2 fa-sm" />
-                    <small className="font-weight-bold">Cart</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/*  */}
-        <div className="col-md-4 mt-4">
-          <div className="card">
-            <div className="product-showdetail">
-              <div className="card-img-top">
-                <img
-                  src="https://syle.s3.ap-southeast-1.amazonaws.com/Ecommerce/src/assets/4k+1080P%2C+2K%2C+4K%2C+5K+HD+wallpapers+free+download.jpg"
-                  className="card-img-top"
-                  alt="..."
-                />
-                <h3 className="text-success-s2 font-weight-bold">SEE DETAIL</h3>
-              </div>
-              <div className="card-body">
-                <p className="font-weight-bold my-0">Sua Rua Mat</p>
-                <small className="card-text text-secondary">Stock : 100</small>
-                <br />
-                <div className="d-flex d-row mt-4">
-                  <p className="my-0 text-success-s2 font-weight-bold">$10.0</p>
-                  <button className="btn btn-outline-success d-flex d-row ml-auto">
-                    <i className="fas fa-cart-plus align-self-center mr-2 fa-sm" />
-                    <small className="font-weight-bold">Cart</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* <Loader isProductLoading={props.isProductLoading} />
-      <div className="row">
-        {arrayDataProduct.length !== 0 ? (
-          arrayDataProduct.map((item, index) => {
-            return (
-              <div className="col-md-4 mt-4" key={index}>
-                <div className="card">
-                  <div
-                    className="product-showdetail"
-                    // kalau tanpa ()=> nanti ulang render terus ga bisa jalan
-                    onClick={() => showDetail(item)}
-                  >
-                    <div
-                      style={picture(item.image)}
-                      className="card-img-top"
-                      alt="..."
-                    />
-                    <h3 className="text-success-s2 font-weight-bold">
-                      SEE DETAIL
-                    </h3>
-                  </div>
-                  <div className="card-body">
-                    <p className="font-weight-bold my-0">{item.name}</p>
-                    <small className="card-text text-secondary">
-                      Stock : {item.quantity}
-                    </small>
-                    <br />
-                    <div className="d-flex d-row mt-4">
-                      <p className="my-0 text-success-s2 font-weight-bold">
-                        ${item.price}
-                      </p>
-                      <button
-                        onClick={() => inputCart(item)}
-                        className="btn btn-outline-success d-flex d-row ml-auto"
-                      >
-                        <i className="fas fa-cart-plus align-self-center mr-2 fa-sm" />
-                        <small className="font-weight-bold">Cart</small>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <div>
-            {props.isProductLoading ? (
-              <> </>
-            ) : (
-              <div>
-                <div className="d-flex justify-content-center">
-                  <img src={Pic404} alt="..." className="w-50" />
-                </div>
-                <h5
-                  className="text-success-s2 text-center"
-                  style={{ marginTop: "-25px" }}
-                >
-                  Sorry, it seems the clothe that you search not found.
-                </h5>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-      {props.dataProduct.length !== 0 &&
-      lengthOfDataProduct > limit &&
-      arrayDataProduct.length !== 0 ? (
-        <div className="text-center">
-          <button
-            onClick={() => seeMoreFunction()}
-            className="btn btn-success mt-4 py-2 px-5"
-          >
-            See More
-          </button>
-        </div>
-      ) : (
-        <> </>
-      )} */}
+      ))}
+    </div>
       <ProductDetailModal
         showDetailModal={showDetailModal}
         unDisplayDetailModal={unDisplayDetailModal}

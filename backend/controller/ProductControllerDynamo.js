@@ -17,25 +17,25 @@ const getAllProductsController = async (req, res) => {
 
 const createProductController = async (req,res) => {
     try {
-        const { productid, name, price, description, quantity, productType, image } = req.body;
-
+        const { image, name, price, description, quantity, productType } = req.body;
         // Create a new product object
+         // Parse price and quantity as integers
+         const parsedPrice = +price || 10000000;
+         const parsedQuantity = +quantity || 10000000;
         const newProduct = {
-            id: productid,
+            image,
             name,
-            price,
+            price: parsedPrice,
             description,
-            quantity,
+            quantity: parsedQuantity,
             productType
-        };
-
+        }
         if (image) {
             newProduct.image = image;
           }
-
+          console.log(newProduct , "Day la phia server nhan duoc")
         // Call the ProductModel to create the product in DynamoDB
-        await ProductModel.createProduct(newProduct);
-
+        await ProductModel.createProduct(newProduct)
         res.json({
             message: 'Product created successfully',
         });
@@ -44,6 +44,7 @@ const createProductController = async (req,res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 const getProductByIdController = async (req, res) => {
     try {
         const { productid } = req.params;
