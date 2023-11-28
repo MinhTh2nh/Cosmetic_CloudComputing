@@ -53,7 +53,6 @@ const UserReducer = (state = initialState, action) => {
     case "INCREASE_QTY_BUY":
       const dataCart = state.dataCart.map((item) => {
         if (action.payload === item._id) {
-          // ++ = item.qtyBuy + 1, pkai ini krna kalau +1 ngga diterima
           item.qtyBuy++;
         }
 
@@ -62,7 +61,6 @@ const UserReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        // kalau namanya sama key & value boleh jadi 1
         dataCart,
       };
 

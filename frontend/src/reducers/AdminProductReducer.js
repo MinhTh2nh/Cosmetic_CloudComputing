@@ -7,7 +7,7 @@ const initialState = {
   },
 };
 
-const AdminUserReducer = (state = initialState, action) => {
+const AdminProductReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_DATA_PRODUCT":
       return {
@@ -33,7 +33,6 @@ const AdminUserReducer = (state = initialState, action) => {
 
     case "DELETE_DATA_PRODUCT":
       const dataAfterDelete = state.dataProduct.filter((item) => {
-        //   action.payload = id product.
         if (item._id === action.payload) {
           return false;
         } else return true;
@@ -60,4 +59,4 @@ const AdminUserReducer = (state = initialState, action) => {
   }
 };
 
-export default AdminUserReducer;
+export default AdminProductReducer;

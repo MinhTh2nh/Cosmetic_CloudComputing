@@ -10,21 +10,29 @@ AWS.config.update({
 
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
 const dynamoDB = new AWS.DynamoDB();
-
 const TABLE_NAME = 'products';
+
 
 const getAllProducts = async () => {
     const params = {
         TableName: TABLE_NAME,
+        Select: 'COUNT',
     };
 
-    const result = await dynamoDB.scan(params).promise();
+    const countResult = await dynamoDB.scan(params).promise();
+
+    const scanParams = {
+        TableName: TABLE_NAME,
+    };
+
+    const result = await dynamoDB.scan(scanParams).promise();
 
     return {
         items: result.Items,
-        count: result.Count,
+        count: countResult.Count,
     };
 };
+
 
 const getProductId = async (productid) => {
     const params = {
@@ -37,27 +45,20 @@ const getProductId = async (productid) => {
     return await dynamoClient.get(params).promise();
 };
 
-//cho tạo trùng product
 const createProduct = async (Product) => {
     const { count } = await getAllProducts();
-    const id = (count).toString();
-    Product.id = id;
+    const id = count; // Increment the count for a new numeric ID
+    Product.productid = id.toString(); // Convert to string for consistency
 
     const params = {
-        TableName: TABLE_NAME, 
-        Item: {
-            productid: Product.id,
-        },
+        TableName: TABLE_NAME,
+        Item: Product,
     };
-
-    // params.Item.id = Product.id;
-
-    if (Product.image) {
-        params.Item.image = Product.image;
-    }
 
     return await dynamoClient.put(params).promise();
 };
+
+
 
 const updateProductById = async (productid, updatedProductInfo) => {
     const existingProduct = await getProductId(productid);
@@ -114,6 +115,7 @@ const deleteProductById = async (productid) => {
 
     return await dynamoClient.delete(params).promise();
 };
+
 
 module.exports = {
     dynamoClient,
