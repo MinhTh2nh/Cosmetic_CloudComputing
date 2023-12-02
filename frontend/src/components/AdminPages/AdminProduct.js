@@ -53,8 +53,8 @@ const AdminProduct = (props) => {
     setShowDeleteModal(false);
   };
   const handleDelete = () => {
-    console.log("Deleting product with productid:", dataDelete.productid.S);
-    dispatch(deleteDataProduct(dataDelete.productid.S));
+    console.log("Deleting product with productid:", dataDelete.product_id);
+    dispatch(deleteDataProduct(dataDelete.product_id.S));
     setShowDeleteModal(false);
   
     setShowDeleteModal(false);

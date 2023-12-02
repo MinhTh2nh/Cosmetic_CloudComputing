@@ -35,11 +35,11 @@ const getAllProducts = async () => {
 };
 
 
-const getProductId = async (productid) => {
+const getproduct_id = async (product_id) => {
     const params = {
         TableName: TABLE_NAME,
         Key: {
-            productid,
+            product_id,
         },
     };
 
@@ -65,9 +65,9 @@ const getProductByProductType = async (productType) => {
 
 
 const createProduct = async (Product) => {
-    const { count } = await getAllProducts();
+    const { count } = await getAllProducts();   
     const id = count; // Increment the count for a new numeric ID
-    Product.productid = id.toString(); // Convert to string for consistency
+    Product.product_id = id.toString(); // Convert to string for consistency
 
     const params = {
         TableName: TABLE_NAME,
@@ -79,8 +79,8 @@ const createProduct = async (Product) => {
 
 
 
-const updateProductById = async (productid, updatedProductInfo) => {
-    const existingProduct = await getProductId(productid);
+const updateProductById = async (product_id, updatedProductInfo) => {
+    const existingProduct = await getproduct_id(product_id);
 
     if (!existingProduct.Item) {
         throw new Error('Product not found.');
@@ -89,7 +89,7 @@ const updateProductById = async (productid, updatedProductInfo) => {
     const params = {
         TableName: TABLE_NAME,
         Key: {
-            productid,
+            product_id,
         },
 
         UpdateExpression: 'SET #name = :name, #price = :price, #description = :description, #quantity = :quantity, #productType = :productType',
@@ -124,11 +124,11 @@ const updateProductById = async (productid, updatedProductInfo) => {
 }
 
 
-const deleteProductById = async (productid) => {
+const deleteProductById = async (product_id) => {
     const params = {
         TableName: TABLE_NAME,
         Key: {
-            productid,
+            product_id,
         },
     };
 
@@ -139,7 +139,7 @@ const deleteProductById = async (productid) => {
 module.exports = {
     dynamoClient,
     getAllProducts,
-    getProductId,
+    getproduct_id,
     createProduct,
     updateProductById,
     deleteProductById,
