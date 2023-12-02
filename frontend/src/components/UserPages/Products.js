@@ -87,7 +87,7 @@ const Products = (props) => {
     >
        <div className="row">
       {products.map((product) => (
-        <div key={product.productid.S} className="col-md-4 mt-4">
+        <div key={product.product_id.S} className="col-md-4 mt-4">
           <div className="card">
             <div className="product-showdetail">
               <div className="card-img-top">
