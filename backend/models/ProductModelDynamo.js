@@ -9,6 +9,7 @@ AWS.config.update({
 })
 
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
+// console.log('DynamoDB Client:', dynamoClient);
 const dynamoDB = new AWS.DynamoDB();
 const TABLE_NAME = 'products';
 
@@ -44,6 +45,24 @@ const getProductId = async (productid) => {
 
     return await dynamoClient.get(params).promise();
 };
+
+const getProductByProductType = async (productType) => {
+    const params = {
+        TableName: TABLE_NAME,
+        FilterExpression: 'productType = :productType',
+        ExpressionAttributeValues: {
+            ':productType': productType,
+        },
+    };
+
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items;
+};
+
+
+
+
+
 
 const createProduct = async (Product) => {
     const { count } = await getAllProducts();
@@ -123,5 +142,6 @@ module.exports = {
     getProductId,
     createProduct,
     updateProductById,
-    deleteProductById
+    deleteProductById,
+    getProductByProductType,
 };
