@@ -10,8 +10,8 @@ AWS.config.update({
 
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
 const dynamoDB = new AWS.DynamoDB();
-const TABLE_NAME = 'products';
 
+const TABLE_NAME = 'products';
 
 const getAllProducts = async () => {
     const params = {
@@ -48,7 +48,7 @@ const getProductId = async (productid) => {
 const createProduct = async (Product) => {
     const { count } = await getAllProducts();
     const id = count; // Increment the count for a new numeric ID
-    Product.productid = id.toString(); // Convert to string for consistency
+    Product.product_id = id.toString(); // Convert to string for consistency
 
     const params = {
         TableName: TABLE_NAME,
@@ -57,8 +57,6 @@ const createProduct = async (Product) => {
 
     return await dynamoClient.put(params).promise();
 };
-
-
 
 const updateProductById = async (productid, updatedProductInfo) => {
     const existingProduct = await getProductId(productid);
@@ -73,7 +71,7 @@ const updateProductById = async (productid, updatedProductInfo) => {
             productid,
         },
 
-        UpdateExpression: 'SET #name = :name, #price = :price, #description = :description, #quantity = :quantity, #productType = :productType',
+        UpdateExpression: 'SET #name = :name, #price = :price, #description = :description, #quantity = :quantity, #productType = :productType ,#image = :image ',
 
         ExpressionAttributeNames: {
             '#name': 'name',
@@ -81,6 +79,7 @@ const updateProductById = async (productid, updatedProductInfo) => {
             '#description': 'description',
             '#quantity': 'quantity',
             '#productType': 'productType',
+            '#image': 'image',
         },
 
         ExpressionAttributeValues: {
@@ -89,6 +88,8 @@ const updateProductById = async (productid, updatedProductInfo) => {
             ':description': updatedProductInfo.description || '',
             ':quantity': updatedProductInfo.quantity || '',
             ':productType': updatedProductInfo.productType || '', // Đảm bảo giá trị tồn tại
+            '#image': updatedProductInfo.image,
+
         },
         
         ReturnValues: 'ALL_NEW',

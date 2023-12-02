@@ -46,11 +46,22 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/product", productRouter);
 app.use("/orders", orderRouter);
+const UserModel = require('./models/UsersModelDyamo'); // Make sure to provide the correct path
+const ProductModel = require('./models/ProductModelDynamo'); // Make sure to provide the correct path
+const OrderModel = require('./models/OrdersModelDyamo'); // Make sure to provide the correct path
+
+// const newUser = {
+//   email: 'newuser@example.com',
+//   password: 'password123',
+//   phoneNumber: '1234567890',
+//   username: 'newuser',
+// };
 
 const port = 8081;
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
+
 //For the DyamoDB database -- End Here
 
 //For the MySQL database -- Start Here

@@ -13,6 +13,7 @@ const dynamoDB = new AWS.DynamoDB();
 
 const TABLE_NAME = 'users';
 
+
 const getAllUsers = async () => {
     const params = {
         TableName: TABLE_NAME,
@@ -142,7 +143,7 @@ const addUser = async (User) => {
     return dynamoClient.put(params).promise();
 };
 
-
+  
 const UserModel  = {
     dynamoClient,
     getUserByEmail,
