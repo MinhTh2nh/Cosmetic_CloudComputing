@@ -58,6 +58,27 @@ const getProductByIdController = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error!' });
     }
 }
+
+const getProductByProductTypeController = async (req, res) => {
+    try {
+        const productType = req.params.productType;
+        const products = await ProductModel.getProductByProductType(productType);
+
+        console.log("Product Type current ", productType);
+        console.log("Products length ", products.length);
+
+        if (!products || products.length === 0) {
+            return res.status(404).json({ error: 'Products not found for the specified type' });
+        }
+
+        console.log('Products:', products);
+        return res.status(200).json({ products });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error!' });
+    }
+};
+
 const updateProducController = async (req, res) => {
     try {
         const { productid } = req.params;
@@ -91,5 +112,6 @@ module.exports = {
     getProductByIdController,
     createProductController,
     updateProducController,
-    deleteProductController
+    getProductByProductTypeController,
+    deleteProductController,
 }

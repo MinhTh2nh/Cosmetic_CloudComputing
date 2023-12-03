@@ -52,6 +52,8 @@ router.get("/get/:productid", productsControllerDynamoDB.getProductByIdControlle
 router.put("/update/:productid", productsControllerDynamoDB.updateProducController);
 router.delete("/delete/:productid", productsControllerDynamoDB.deleteProductController);
 //Un-Test
+router.get('/getProductsType/:productType', productsControllerDynamoDB.getProductByProductTypeController);
+
 //For the DyamoDB database -- End Here
 
 module.exports = router;

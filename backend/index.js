@@ -40,7 +40,6 @@ app.use("/public/productImages", express.static("public"));
 // app.use("/order", orderRouter);
 //For the MongoDB database -- End Here
 
-
 //For the DyamoDB database -- Start Here
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
